@@ -43,7 +43,7 @@
   }
 
   /* hero */
-  .hero{padding:56px 0 20px}
+  .hero{padding-top:56px;padding-bottom:20px}
   .hero h1{font-size:clamp(28px,8vw,40px);line-height:1.12;letter-spacing:-.03em;margin:0 0 14px;font-weight:800}
   .hero h1 span{color:var(--accent)}
   .hero p{font-size:clamp(15px,4vw,17px);color:var(--muted);max-width:600px;margin:0 0 22px}
@@ -57,7 +57,7 @@
   .btn.ghost{background:var(--card);border:1px solid var(--line);color:var(--ink)}
   @media(max-width:640px){
     .wrap{padding:0 16px}
-    .hero{padding:34px 0 12px}
+    .hero{padding-top:34px;padding-bottom:12px}
     .hero h1{font-size:26px;line-height:1.15}
     .hero p{font-size:15px}
     section{padding:40px 0}
@@ -152,13 +152,33 @@
   .rec{color:var(--gold);font-weight:800;font-size:11px;white-space:nowrap}
   .tag{display:inline-block;background:var(--accent-soft);color:var(--accent-d);font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;margin-left:8px;vertical-align:middle}
   .callout{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 18px;font-size:14px;margin-top:16px}
-  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:14px}
-  .scroll .tbl{border:0;border-radius:0}
-  .scroll::-webkit-scrollbar{height:6px}
-  .scroll::-webkit-scrollbar-thumb{background:#cdd8d2;border-radius:6px}
+  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .swipe-hint{display:none}
+
+  /* On phones, reflow each pricing table into stacked cards */
   @media(max-width:640px){
-    .swipe-hint{display:block;font-size:11px;color:var(--muted);font-weight:600;margin:2px 0 6px;text-align:right}
+    .scroll{overflow:visible}
+    .tbl{min-width:0;border:0;background:transparent;border-radius:0;display:block}
+    .tbl thead{display:none}
+    .tbl tbody{display:block}
+    .tbl tr{
+      display:block;background:var(--card);border:1px solid var(--line);
+      border-radius:14px;padding:6px 4px;margin-bottom:12px;box-shadow:var(--shadow)}
+    .tbl td{
+      display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+      padding:9px 14px;border:0;border-bottom:1px solid var(--line);
+      font-size:14px;text-align:right}
+    .tbl tr td:last-child{border-bottom:0}
+    .tbl td::before{
+      content:attr(data-label);text-align:left;flex:0 0 40%;
+      font-size:10.5px;font-weight:700;text-transform:uppercase;
+      letter-spacing:.04em;color:var(--muted)}
+    /* first cell = the row's name: full-width header strip */
+    .tbl td.rowname{
+      display:block;text-align:left;font-size:15px;font-weight:800;
+      background:var(--soft);border-radius:10px;margin:2px 6px 4px;
+      padding:10px 12px;border-bottom:0}
+    .tbl td.rowname::before{display:none}
   }
 
   /* contact */
@@ -173,345 +193,52 @@
     .contact .col{flex:1 1 100%}
   }
   footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 20px 46px}
-</style>
-</head>
-<body class="demo-viewer">
 
-<!-- NAV -->
-<div class="nav"><div class="in">
-  <div class="logo">🏆 Campus<span>Play</span></div>
-  <div class="links">
-    <a href="#demo" class="hide-sm">Live Demo</a>
-    <a href="#scope" class="hide-sm">What's Included</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#contact" class="cta">Get Started</a>
-  </div>
-</div></div>
-
-<!-- HERO -->
-<div class="wrap hero">
-  <div class="eyebrow">Proposal for RG Games</div>
-  <h1>A sports community site with a <span>live leaderboard</span>, admin control &amp; online event booking.</h1>
-  <p>Everything below is real — the demo you can play with, the full scope, and the exact price.
-     One page, no surprises. Designed to match the clean look of talkthatdamnpoint.com.</p>
-  <div class="chips">
-    <div class="chip"><b>Prepared for</b><span class="v">Kishan Salariya · RG Games</span></div>
-    <div class="chip"><b>Reference design</b><span class="v">talkthatdamnpoint.com</span></div>
-    <div class="chip"><b>One-time price</b><span class="v">₹20,000</span></div>
-  </div>
-  <div class="btn-row">
-    <a href="#demo" class="btn primary">▶ Try the live demo</a>
-    <a href="#pricing" class="btn ghost">See pricing &amp; costs</a>
-  </div>
-</div>
-
-<!-- LIVE DEMO -->
-<section id="demo">
-  <div class="wrap">
-    <div class="eyebrow">Live &amp; interactive</div>
-    <h2 class="h">Try it yourself — this is the actual product</h2>
-    <p class="lede">Switch to <b>Admin</b> and record a match — watch the leaderboard recalculate instantly.
-      Flip back to <b>Viewer</b> to see exactly what your members will see. It's fully working, right here.</p>
-
-    <div class="demo-frame">
-      <div class="demo-bar">
-        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-        <span class="url">CampusPlay · Live Demo</span>
-      </div>
-      <div class="demo-inner demo-scope" id="demoScope">
-        <div class="demo-head">
-          <div class="t">🏆 CampusPlay<small>Sports Community</small></div>
-          <div class="toggle" id="toggle">
-            <button data-mode="viewer" class="on">Viewer</button>
-            <button data-mode="admin" class="admin">Admin</button>
-          </div>
-        </div>
-
-        <div class="banner admin-only">
-          <div class="inner">🔒 ADMIN MODE — editing enabled. Viewers can only look; admins record results.</div>
-        </div>
-
-        <div class="tabs" id="tabs"></div>
-
-        <div class="card adminbox admin-only">
-          <h3>Record a match</h3>
-          <div class="sub">Winner gets 3 points. Played / Won / Lost update automatically.</div>
-          <div class="row">
-            <div class="field"><label>Winner</label><select id="mWinner"></select></div>
-            <div class="field"><label>Loser</label><select id="mLoser"></select></div>
-            <button class="b2 go" id="saveMatch">Save match</button>
-          </div>
-          <div class="hint" id="matchHint"></div>
-          <div class="split"></div>
-          <h3>Add a player</h3>
-          <div class="sub">Adds a student to this sport's roster at 0 points.</div>
-          <div class="row">
-            <div class="field"><label>Player name</label><input type="text" id="pName" placeholder="e.g. Rohan" autocomplete="off"></div>
-            <button class="b2 add" id="addPlayer">Add player</button>
-          </div>
-          <div class="hint" id="playerHint"></div>
-        </div>
-
-        <div class="card">
-          <h3 id="lbTitle">Leaderboard</h3>
-          <div class="sub" id="lbSub"></div>
-          <div class="tablewrap"><table class="lb">
-            <thead><tr>
-              <th class="rank">#</th><th>Player</th>
-              <th class="num">Played</th><th class="num">Won</th><th class="num">Lost</th><th class="num">Points</th>
-            </tr></thead>
-            <tbody id="lbBody"></tbody>
-          </table></div>
-          <div class="empty" id="lbEmpty" style="display:none">No players yet — add one in Admin mode.</div>
-        </div>
-
-        <div class="card">
-          <h3>Recent matches</h3>
-          <div class="sub">Most recent first.</div>
-          <div id="matchList"></div>
-          <div class="empty" id="mEmpty" style="display:none">No matches recorded yet.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SCOPE -->
-<section id="scope" style="background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-  <div class="wrap">
-    <div class="eyebrow">Included in ₹20,000</div>
-    <h2 class="h">Everything I'll build for you</h2>
-    <p class="lede">A complete, mobile-first platform — public viewing, full admin control, event booking with payments, and Instagram feed.</p>
-    <div class="grid">
-      <div class="feat"><div class="n">01</div><h4>Public Leaderboard (Viewer)</h4>
-        <p>Anyone can view live leaderboards across all sports — points, matches played, won, lost, ranks and recent results. No login needed.</p></div>
-      <div class="feat"><div class="n">02</div><h4>Admin Panel — Full Control</h4>
-        <p>Secure login. Add, edit &amp; remove players, record results, set wins &amp; losses (points auto-calculated), manage multiple sports — full control over standings.</p></div>
-      <div class="feat"><div class="n">03</div><h4>Event Booking + Payments</h4>
-        <p>Admin creates events; members book &amp; pay online — the same booking flow as the reference site. Every booking tracked in the admin panel.</p></div>
-      <div class="feat"><div class="n">04</div><h4>Payment Gateway Integration</h4>
-        <p>One gateway integrated end-to-end (your choice — comparison below). Secure UPI &amp; card checkout.</p></div>
-      <div class="feat"><div class="n">05</div><h4>Instagram Feed</h4>
-        <p>Live Instagram feed embedded on the site to keep the community page fresh and connected.</p></div>
-      <div class="feat"><div class="n">06</div><h4>Fully Responsive Design</h4>
-        <p>Looks and works perfectly on mobile, tablet &amp; desktop — crafted to mirror the clean, warm talkthatdamnpoint.com style.</p></div>
-      <div class="feat"><div class="n">07</div><h4>Database &amp; Storage</h4>
-        <p>Cloud database &amp; storage set up so all players, matches, events and bookings are saved permanently and safely.</p></div>
-      <div class="feat"><div class="n">08</div><h4>Hosting, Deploy, SSL &amp; Handover</h4>
-        <p>Deployed live on free-tier hosting with free HTTPS, plus 1 round of revisions and a short walkthrough of the admin panel.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section id="pricing">
-  <div class="wrap">
-    <div class="eyebrow">Investment</div>
-    <h2 class="h">One price. Everything above.</h2>
-    <div class="pricecard">
-      <div>
-        <div class="k">Complete Website — Design + Development</div>
-        <div class="v">Leaderboard · Admin · Event Booking · Payments · Instagram</div>
-      </div>
-      <div class="amt">₹20,000 <small>one-time</small></div>
-    </div>
-    <p class="terms"><b>Payment terms:</b> 50% advance (₹10,000) to begin, 50% (₹10,000) on completion &amp; go-live.
-      &nbsp;·&nbsp; <b>Timeline:</b> 2–3 weeks from advance &amp; content handover. &nbsp;·&nbsp; Fixed price, no hidden charges.</p>
-
-    <h3 style="font-size:18px;margin:34px 0 4px">Ongoing costs <span class="tag">Paid directly by you</span></h3>
-    <p class="lede" style="margin-bottom:16px">Not part of the ₹20,000 — these go straight to the domain registrar &amp; payment gateway. I set them all up for you at no extra charge.</p>
-    <div class="swipe-hint">← swipe to see full table →</div>
-    <div class="scroll"><table class="tbl">
-      <thead><tr><th>Item</th><th>Typical cost</th><th>Frequency</th><th>Notes</th></tr></thead>
-      <tbody>
-        <tr><td><b>Domain</b> (e.g. yoursite.com)</td><td>₹899 – ₹1,199</td><td>per year</td><td>.in domains are cheaper (₹599 – ₹799/yr)</td></tr>
-        <tr><td><b>Hosting &amp; deployment</b></td><td class="free">₹0 — Free tier</td><td>—</td><td>Vercel / Netlify / Render free plan — enough for launch &amp; normal traffic</td></tr>
-        <tr><td><b>Database &amp; storage</b></td><td class="free">₹0 — Free tier</td><td>—</td><td>Supabase / Firebase free plan; upgrade only at very high volume</td></tr>
-        <tr><td><b>SSL certificate</b> (HTTPS)</td><td class="free">₹0 — Included</td><td>—</td><td>Auto-provisioned &amp; auto-renewed</td></tr>
-        <tr><td><b>Payment gateway fees</b></td><td>Per transaction</td><td>per booking</td><td>No fixed monthly fee — only a % of each successful payment (see below)</td></tr>
-      </tbody>
-    </table></div>
-    <div class="callout"><b>Realistic first-year running cost ≈ ₹899 – ₹1,199</b> — just the domain. Hosting, storage &amp; SSL stay free on their free tiers for a community site of this size. A paid hosting upgrade (~₹0–₹800/month) only matters if traffic grows very large later.</div>
-
-    <h3 style="font-size:18px;margin:34px 0 4px">Payment gateway comparison — pick one</h3>
-    <p class="lede" style="margin-bottom:16px">All major Indian gateways charge <b>only per successful transaction</b> — no setup fee, no annual fee on standard plans. Add 18% GST on the fee (a 2% fee ≈ 2.36% all-in). UPI often carries only a small platform fee.</p>
-    <div class="swipe-hint">← swipe to see full table →</div>
-    <div class="scroll"><table class="tbl">
-      <thead><tr><th>Gateway</th><th>Domestic fee</th><th>International</th><th>Setup / AMC</th><th>Best for</th></tr></thead>
-      <tbody>
-        <tr><td><b>Razorpay</b> <span class="rec">★ RECOMMENDED</span></td><td>2% + GST</td><td>3% + GST</td><td class="free">₹0 / ₹0</td><td>Most popular, best docs, fast KYC, great dashboard</td></tr>
-        <tr><td><b>PhonePe PG</b></td><td>1.95% + GST</td><td>—</td><td class="free">₹0 / ₹0</td><td>UPI-first; limited-period free UPI offer — great if bookings are UPI-heavy</td></tr>
-        <tr><td><b>Cashfree</b></td><td>1.95% + GST</td><td>3.5% + GST</td><td class="free">₹0 / ₹0</td><td>New-merchant promo: 1.6% flat UPI (sign up before 31 Jul 2026)</td></tr>
-        <tr><td><b>PayU</b></td><td>2% + GST</td><td>3% + GST</td><td class="free">₹0 / ₹0</td><td>Established; custom lower rates negotiable at higher volume</td></tr>
-        <tr><td><b>Instamojo</b></td><td>2% + ₹3 + GST</td><td>—</td><td class="free">₹0 / ₹0</td><td>Simplest to start; good for low volume</td></tr>
-      </tbody>
-    </table></div>
-    <div class="callout"><b>Example:</b> on a ₹500 booking, a 2% + GST fee ≈ ₹11.8 — you receive ≈ ₹488. My pick: <b>Razorpay</b> for the smoothest setup, or <b>PhonePe/Cashfree</b> if most bookings are UPI. I'll integrate whichever you choose.</div>
-
-    <h3 style="font-size:18px;margin:34px 0 4px">Optional — Annual Maintenance</h3>
-    <div class="swipe-hint">← swipe to see full table →</div>
-    <div class="scroll"><table class="tbl">
-      <thead><tr><th>Plan</th><th>Price</th><th>Covers</th></tr></thead>
-      <tbody>
-        <tr><td><b>Maintenance &amp; Support</b></td><td><b>₹4,999</b> / year</td><td>Bug fixes, minor updates, uptime checks, priority support, content tweaks</td></tr>
-      </tbody>
-    </table></div>
-    <p class="terms"><b>Completely optional</b> — the site runs fine without it. First 30 days after go-live include free bug-fixing regardless. New features are quoted separately.</p>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact" style="background:var(--soft);border-top:1px solid var(--line)">
-  <div class="wrap">
-    <div class="eyebrow">Ready when you are</div>
-    <h2 class="h">Let's get RG Games online</h2>
-    <p class="lede">Confirm your payment gateway and share your content (logo, event details, Instagram handle, player data) and the first working version is live within 2–3 weeks.</p>
-    <div class="contact">
-      <div class="col">
-        <div class="lbl">Prepared by</div>
-        <div class="nm">Pratham Chudasama</div>
-        <div class="dt">Web Developer &amp; Designer</div>
-        <div class="dt">📞 +91 82003 57641</div>
-        <div class="dt">✉️ chudasamapratham142@gmail.com</div>
-      </div>
-      <div class="col">
-        <div class="lbl">Prepared for</div>
-        <div class="nm">Kishan Salariya</div>
-        <div class="dt">RG Games</div>
-        <div class="dt">📞 +91 95112 59137</div>
-      </div>
-      <div class="col" style="align-self:center">
-        <a href="https://wa.me/918200357641?text=Hi%20Pratham%21%20I%27ve%20reviewed%20the%20CampusPlay%20proposal%20for%20RG%20Games%20%E2%80%94%20let%27s%20make%20this%20happen%20ASAP%21%20%F0%9F%9A%80" target="_blank" rel="noopener" class="btn primary">Approve &amp; start on WhatsApp →</a>
-      </div>
-    </div>
-    <p class="terms">Quote valid 15 days · Domain &amp; gateway accounts registered in your name · Gateway rates as published for 2026 and may change at the provider's discretion.</p>
-  </div>
-</section>
-
-<footer>CampusPlay · Prepared for RG Games by Pratham Chudasama · July 2026</footer>
-
-<script>
-// ---- data: matches are the source of truth; standings are computed ----
-const sports = {
-  badminton:  { label:'🏸 Badminton',    players:['Aarav','Priya','Kabir','Sana','Rohan'],
-                matches:[['Aarav','Sana'],['Priya','Kabir'],['Aarav','Priya'],['Kabir','Rohan'],
-                         ['Aarav','Kabir'],['Priya','Rohan'],['Sana','Rohan'],['Aarav','Priya']] },
-  pickleball: { label:'🥒 Pickleball',    players:['Meera','Dev','Ishaan','Nisha'],
-                matches:[['Meera','Dev'],['Ishaan','Nisha'],['Meera','Ishaan'],['Dev','Nisha'],['Meera','Nisha']] },
-  snooker:    { label:'🎱 Snooker',       players:['Arjun','Vivek','Tara'],
-                matches:[['Arjun','Vivek'],['Tara','Vivek'],['Arjun','Tara'],['Arjun','Vivek']] },
-  tabletennis:{ label:'🏓 Table Tennis',  players:['Zoya','Karan','Anaya','Yash','Diya'],
-                matches:[['Zoya','Karan'],['Anaya','Yash'],['Zoya','Anaya'],['Karan','Diya'],
-                         ['Yash','Diya'],['Zoya','Diya']] },
-};
-const WIN_POINTS = 3;
-let mode = 'viewer';
-let current = 'badminton';
-
-function standings(key){
-  const s = sports[key], t = {};
-  s.players.forEach(n => t[n] = {name:n, played:0, won:0, lost:0, points:0});
-  s.matches.forEach(([w,l]) => {
-    if(t[w]){ t[w].played++; t[w].won++; t[w].points += WIN_POINTS; }
-    if(t[l]){ t[l].played++; t[l].lost++; }
-  });
-  return Object.values(t).sort((a,b)=> b.points-a.points || b.won-a.won || a.name.localeCompare(b.name));
-}
-const $ = id => document.getElementById(id);
-const medals = ['🥇','🥈','🥉'];
-function esc(str){ return String(str).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-
-function render(){
-  $('demoScope').className = 'demo-inner demo-scope ' + mode;
-  [...$('toggle').children].forEach(b=>b.classList.toggle('on', b.dataset.mode===mode));
-  [...$('tabs').children].forEach(b=>b.classList.toggle('on', b.dataset.key===current));
-
-  const s = sports[current], rows = standings(current);
-  $('lbTitle').textContent = s.label + ' — Leaderboard';
-  $('lbSub').textContent = rows.length + ' players · ' + s.matches.length + ' matches played';
-
-  const body = $('lbBody'); body.innerHTML='';
-  $('lbEmpty').style.display = rows.length ? 'none' : 'block';
-  rows.forEach((p,i)=>{
-    const tr = document.createElement('tr');
-    if(i===0) tr.className='top1';
-    const rank = i<3 ? `<span class="medal">${medals[i]}</span>` : (i+1);
-    tr.innerHTML = `<td class="rank">${rank}</td><td class="pname">${esc(p.name)}</td>`+
-      `<td class="num">${p.played}</td><td class="num w">${p.won}</td>`+
-      `<td class="num l">${p.lost}</td><td class="num pts">${p.points}</td>`;
-    body.appendChild(tr);
-  });
-
-  const list = $('matchList'); list.innerHTML='';
-  $('mEmpty').style.display = s.matches.length ? 'none' : 'block';
-  s.matches.map((m,idx)=>({m,idx})).reverse().forEach(({m,idx})=>{
-    const div = document.createElement('div');
-    div.className='match';
-    div.innerHTML = `<span class="win">${esc(m[0])}</span><span class="beat">beat</span><b>${esc(m[1])}</b>`+
-      (mode==='admin' ? `<button class="xbtn" title="Undo this match" data-idx="${idx}">✕</button>` : '');
-    list.appendChild(div);
-  });
-
-  if(mode==='admin'){
-    const opts = s.players.map(n=>`<option>${esc(n)}</option>`).join('');
-    $('mWinner').innerHTML = opts; $('mLoser').innerHTML = opts;
-    if(s.players.length>1) $('mLoser').selectedIndex = 1;
+  /* ===== Guided walkthrough ===== */
+  .tour-dim{position:fixed;inset:0;z-index:900;background:rgba(20,32,27,.55);
+    opacity:0;pointer-events:none;transition:opacity .25s}
+  .tour-dim.on{opacity:1;pointer-events:auto}
+  .tour-active{position:relative;z-index:920 !important;
+    box-shadow:0 0 0 4px var(--accent),0 0 0 9px rgba(18,161,95,.25),0 12px 34px rgba(0,0,0,.28);
+    border-radius:14px;transition:box-shadow .2s}
+  .tour-pulse{animation:tourPulse 1.4s ease-out infinite}
+  @keyframes tourPulse{
+    0%{box-shadow:0 0 0 4px var(--accent),0 0 0 0 rgba(18,161,95,.45),0 12px 34px rgba(0,0,0,.28)}
+    70%{box-shadow:0 0 0 4px var(--accent),0 0 0 16px rgba(18,161,95,0),0 12px 34px rgba(0,0,0,.28)}
+    100%{box-shadow:0 0 0 4px var(--accent),0 0 0 0 rgba(18,161,95,0),0 12px 34px rgba(0,0,0,.28)}
   }
-}
-function saveMatch(){
-  const w = $('mWinner').value, l = $('mLoser').value, hint = $('matchHint');
-  if(w===l){ hint.textContent='Winner and loser must be different players.'; return; }
-  sports[current].matches.push([w,l]); hint.textContent=''; render();
-}
-function removeMatch(idx){ sports[current].matches.splice(idx,1); render(); }
-function addPlayer(){
-  const inp = $('pName'), name = inp.value.trim(), hint = $('playerHint');
-  if(!name){ hint.textContent='Enter a name first.'; return; }
-  if(sports[current].players.some(p=>p.toLowerCase()===name.toLowerCase())){ hint.textContent='That player already exists in this sport.'; return; }
-  sports[current].players.push(name); inp.value=''; hint.textContent=''; render();
-}
-$('toggle').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b)return; mode=b.dataset.mode; render(); });
-$('tabs').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b)return; current=b.dataset.key; $('matchHint').textContent=''; $('playerHint').textContent=''; render(); });
-$('matchList').addEventListener('click', e=>{ const b=e.target.closest('.xbtn'); if(!b)return; removeMatch(+b.dataset.idx); });
-$('saveMatch').addEventListener('click', saveMatch);
-$('addPlayer').addEventListener('click', addPlayer);
-$('pName').addEventListener('keydown', e=>{ if(e.key==='Enter') addPlayer(); });
-$('tabs').innerHTML = Object.entries(sports).map(([k,v])=>`<button data-key="${k}">${v.label}</button>`).join('');
-render();
-
-// smooth in-page scrolling for nav + hero links (reliable across browsers)
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', e=>{
-    const t = document.getElementById(a.getAttribute('href').slice(1));
-    if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth', block:'start'}); }
-  });
-});
-</script>
-</body>
-</html>
-  .pricecard .k{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.7}
-  .pricecard .v{font-size:17px;font-weight:700;margin-top:4px}
-  .pricecard .amt{font-size:46px;font-weight:800;letter-spacing:-.02em;line-height:1}
-  .pricecard .amt small{font-size:15px;font-weight:600;opacity:.7}
-  .terms{color:var(--muted);font-size:13.5px;margin-top:14px}
-
-  .tbl{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
-    border:1px solid var(--line);border-radius:14px;overflow:hidden}
-  .tbl th,.tbl td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line)}
-  .tbl thead th{background:var(--accent);color:#fff;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;border:0}
-  .tbl tbody tr:last-child td{border-bottom:0}
-  .tbl .free{color:var(--accent);font-weight:700}
-  .rec{color:var(--gold);font-weight:800;font-size:11px;white-space:nowrap}
-  .tag{display:inline-block;background:var(--accent-soft);color:var(--accent-d);font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;margin-left:8px;vertical-align:middle}
-  .callout{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 18px;font-size:14px;margin-top:16px}
-  .scroll{overflow-x:auto}
-
-  /* contact */
-  .contact{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 28px;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between}
-  .contact .col .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;margin-bottom:6px}
-  .contact .col .nm{font-weight:800;font-size:17px}
-  .contact .col .dt{color:var(--muted);font-size:14px;margin-top:2px}
-  footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 0 46px}
+  .tour-tip{position:fixed;z-index:930;max-width:300px;width:calc(100% - 32px);
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    box-shadow:0 18px 50px rgba(0,0,0,.28);padding:16px 16px 14px;
+    opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s}
+  .tour-tip.on{opacity:1;transform:translateY(0)}
+  .tour-tip .step{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+  .tour-tip h5{margin:0 0 5px;font-size:16px;font-weight:800;letter-spacing:-.01em}
+  .tour-tip p{margin:0 0 12px;font-size:13.5px;color:var(--muted);line-height:1.5}
+  .tour-tip .row2{display:flex;align-items:center;gap:10px}
+  .tour-dots{display:flex;gap:5px;margin-right:auto}
+  .tour-dots i{width:6px;height:6px;border-radius:50%;background:#d4ded8;display:block;transition:all .2s}
+  .tour-dots i.on{background:var(--accent);width:16px;border-radius:3px}
+  .tour-tip button{border:0;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer;padding:8px 15px}
+  .tour-skip{background:transparent;color:var(--muted)}
+  .tour-next{background:var(--accent);color:#fff}
+  .tour-arrow{position:fixed;z-index:931;width:0;height:0;
+    border-left:9px solid transparent;border-right:9px solid transparent;
+    opacity:0;transition:opacity .2s}
+  .tour-arrow.on{opacity:1}
+  .tour-arrow.up{border-bottom:9px solid var(--card)}
+  .tour-arrow.down{border-top:9px solid var(--card)}
+  .howto{border:1px solid var(--accent);background:var(--accent-soft);color:var(--accent-d);
+    font-weight:700;font-size:12.5px;padding:7px 13px;border-radius:999px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .howto:hover{background:#d8f0e3}
+  @media(max-width:640px){
+    .howto{font-size:12px;padding:6px 11px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .tour-pulse{animation:none}
+    html{scroll-behavior:auto}
+  }
 </style>
 </head>
 <body class="demo-viewer">
@@ -560,9 +287,12 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
       <div class="demo-inner demo-scope" id="demoScope">
         <div class="demo-head">
           <div class="t">🏆 CampusPlay<small>Sports Community</small></div>
-          <div class="toggle" id="toggle">
-            <button data-mode="viewer" class="on">Viewer</button>
-            <button data-mode="admin" class="admin">Admin</button>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <button class="howto" id="howtoBtn" type="button">✨ Show me how</button>
+            <div class="toggle" id="toggle">
+              <button data-mode="viewer" class="on">Viewer</button>
+              <button data-mode="admin" class="admin">Admin</button>
+            </div>
           </div>
         </div>
 
@@ -662,11 +392,11 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     <div class="scroll"><table class="tbl">
       <thead><tr><th>Item</th><th>Typical cost</th><th>Frequency</th><th>Notes</th></tr></thead>
       <tbody>
-        <tr><td><b>Domain</b> (e.g. yoursite.com)</td><td>₹899 – ₹1,199</td><td>per year</td><td>.in domains are cheaper (₹599 – ₹799/yr)</td></tr>
-        <tr><td><b>Hosting &amp; deployment</b></td><td class="free">₹0 — Free tier</td><td>—</td><td>Vercel / Netlify / Render free plan — enough for launch &amp; normal traffic</td></tr>
-        <tr><td><b>Database &amp; storage</b></td><td class="free">₹0 — Free tier</td><td>—</td><td>Supabase / Firebase free plan; upgrade only at very high volume</td></tr>
-        <tr><td><b>SSL certificate</b> (HTTPS)</td><td class="free">₹0 — Included</td><td>—</td><td>Auto-provisioned &amp; auto-renewed</td></tr>
-        <tr><td><b>Payment gateway fees</b></td><td>Per transaction</td><td>per booking</td><td>No fixed monthly fee — only a % of each successful payment (see below)</td></tr>
+        <tr><td class="rowname">Domain (e.g. yoursite.com)</td><td data-label="Typical cost">₹899 – ₹1,199</td><td data-label="Frequency">per year</td><td data-label="Notes">.in domains are cheaper (₹599 – ₹799/yr)</td></tr>
+        <tr><td class="rowname">Hosting &amp; deployment</td><td class="free" data-label="Typical cost">₹0 — Free tier</td><td data-label="Frequency">—</td><td data-label="Notes">Vercel / Netlify / Render free plan — enough for launch &amp; normal traffic</td></tr>
+        <tr><td class="rowname">Database &amp; storage</td><td class="free" data-label="Typical cost">₹0 — Free tier</td><td data-label="Frequency">—</td><td data-label="Notes">Supabase / Firebase free plan; upgrade only at very high volume</td></tr>
+        <tr><td class="rowname">SSL certificate (HTTPS)</td><td class="free" data-label="Typical cost">₹0 — Included</td><td data-label="Frequency">—</td><td data-label="Notes">Auto-provisioned &amp; auto-renewed</td></tr>
+        <tr><td class="rowname">Payment gateway fees</td><td data-label="Typical cost">Per transaction</td><td data-label="Frequency">per booking</td><td data-label="Notes">No fixed monthly fee — only a % of each successful payment (see below)</td></tr>
       </tbody>
     </table></div>
     <div class="callout"><b>Realistic first-year running cost ≈ ₹899 – ₹1,199</b> — just the domain. Hosting, storage &amp; SSL stay free on their free tiers for a community site of this size. A paid hosting upgrade (~₹0–₹800/month) only matters if traffic grows very large later.</div>
@@ -676,11 +406,11 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     <div class="scroll"><table class="tbl">
       <thead><tr><th>Gateway</th><th>Domestic fee</th><th>International</th><th>Setup / AMC</th><th>Best for</th></tr></thead>
       <tbody>
-        <tr><td><b>Razorpay</b> <span class="rec">★ RECOMMENDED</span></td><td>2% + GST</td><td>3% + GST</td><td class="free">₹0 / ₹0</td><td>Most popular, best docs, fast KYC, great dashboard</td></tr>
-        <tr><td><b>PhonePe PG</b></td><td>1.95% + GST</td><td>—</td><td class="free">₹0 / ₹0</td><td>UPI-first; limited-period free UPI offer — great if bookings are UPI-heavy</td></tr>
-        <tr><td><b>Cashfree</b></td><td>1.95% + GST</td><td>3.5% + GST</td><td class="free">₹0 / ₹0</td><td>New-merchant promo: 1.6% flat UPI (sign up before 31 Jul 2026)</td></tr>
-        <tr><td><b>PayU</b></td><td>2% + GST</td><td>3% + GST</td><td class="free">₹0 / ₹0</td><td>Established; custom lower rates negotiable at higher volume</td></tr>
-        <tr><td><b>Instamojo</b></td><td>2% + ₹3 + GST</td><td>—</td><td class="free">₹0 / ₹0</td><td>Simplest to start; good for low volume</td></tr>
+        <tr><td class="rowname">Razorpay <span class="rec">★ RECOMMENDED</span></td><td data-label="Domestic fee">2% + GST</td><td data-label="International">3% + GST</td><td class="free" data-label="Setup / AMC">₹0 / ₹0</td><td data-label="Best for">Most popular, best docs, fast KYC, great dashboard</td></tr>
+        <tr><td class="rowname">PhonePe PG</td><td data-label="Domestic fee">1.95% + GST</td><td data-label="International">—</td><td class="free" data-label="Setup / AMC">₹0 / ₹0</td><td data-label="Best for">UPI-first; limited-period free UPI offer — great if bookings are UPI-heavy</td></tr>
+        <tr><td class="rowname">Cashfree</td><td data-label="Domestic fee">1.95% + GST</td><td data-label="International">3.5% + GST</td><td class="free" data-label="Setup / AMC">₹0 / ₹0</td><td data-label="Best for">New-merchant promo: 1.6% flat UPI (sign up before 31 Jul 2026)</td></tr>
+        <tr><td class="rowname">PayU</td><td data-label="Domestic fee">2% + GST</td><td data-label="International">3% + GST</td><td class="free" data-label="Setup / AMC">₹0 / ₹0</td><td data-label="Best for">Established; custom lower rates negotiable at higher volume</td></tr>
+        <tr><td class="rowname">Instamojo</td><td data-label="Domestic fee">2% + ₹3 + GST</td><td data-label="International">—</td><td class="free" data-label="Setup / AMC">₹0 / ₹0</td><td data-label="Best for">Simplest to start; good for low volume</td></tr>
       </tbody>
     </table></div>
     <div class="callout"><b>Example:</b> on a ₹500 booking, a 2% + GST fee ≈ ₹11.8 — you receive ≈ ₹488. My pick: <b>Razorpay</b> for the smoothest setup, or <b>PhonePe/Cashfree</b> if most bookings are UPI. I'll integrate whichever you choose.</div>
@@ -689,7 +419,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     <div class="scroll"><table class="tbl">
       <thead><tr><th>Plan</th><th>Price</th><th>Covers</th></tr></thead>
       <tbody>
-        <tr><td><b>Maintenance &amp; Support</b></td><td><b>₹4,999</b> / year</td><td>Bug fixes, minor updates, uptime checks, priority support, content tweaks</td></tr>
+        <tr><td class="rowname">Maintenance &amp; Support</td><td data-label="Price"><b>₹4,999</b> / year</td><td data-label="Covers">Bug fixes, minor updates, uptime checks, priority support, content tweaks</td></tr>
       </tbody>
     </table></div>
     <p class="terms"><b>Completely optional</b> — the site runs fine without it. First 30 days after go-live include free bug-fixing regardless. New features are quoted separately.</p>
@@ -725,6 +455,20 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
 </section>
 
 <footer>CampusPlay · Prepared for RG Games by Pratham Chudasama · July 2026</footer>
+
+<!-- Guided walkthrough overlay -->
+<div class="tour-dim" id="tourDim"></div>
+<div class="tour-arrow" id="tourArrow"></div>
+<div class="tour-tip" id="tourTip" role="dialog" aria-live="polite">
+  <div class="step" id="tourStep">Step 1 of 5</div>
+  <h5 id="tourTitle"></h5>
+  <p id="tourBody"></p>
+  <div class="row2">
+    <div class="tour-dots" id="tourDots"></div>
+    <button class="tour-skip" id="tourSkip" type="button">Skip</button>
+    <button class="tour-next" id="tourNext" type="button">Next</button>
+  </div>
+</div>
 
 <script>
 // ---- data: matches are the source of truth; standings are computed ----
@@ -815,13 +559,147 @@ $('pName').addEventListener('keydown', e=>{ if(e.key==='Enter') addPlayer(); });
 $('tabs').innerHTML = Object.entries(sports).map(([k,v])=>`<button data-key="${k}">${v.label}</button>`).join('');
 render();
 
-// smooth in-page scrolling for nav + hero links (reliable across browsers)
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', e=>{
-    const t = document.getElementById(a.getAttribute('href').slice(1));
-    if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth', block:'start'}); }
+// ===== Guided walkthrough (auto-fill + spotlight) =====
+(function(){
+  const dim=$('tourDim'), tip=$('tourTip'), arrow=$('tourArrow'),
+        elStep=$('tourStep'), elTitle=$('tourTitle'), elBody=$('tourBody'),
+        elDots=$('tourDots'), btnNext=$('tourNext'), btnSkip=$('tourSkip');
+  let i=0, activeEl=null, started=false;
+
+  // Each step: which element to spotlight, the copy, and an action to run when it opens.
+  const steps=[
+    { sel:'#toggle',
+      title:'This is your control switch',
+      body:'“Viewer” is what everyone sees. “Admin” is your private control panel. Watch — I’ll switch you to Admin.',
+      cta:'Switch to Admin',
+      run(){ mode='viewer'; render(); },      // start from viewer so the switch is visible
+      onNext(){ mode='admin'; render(); } },
+
+    { sel:'#tabs',
+      title:'Pick a sport',
+      body:'Each sport has its own leaderboard. You’re on Badminton — tap any pill to switch. Every change you make only affects the sport you’re viewing.',
+      cta:'Next',
+      run(){ mode='admin'; current='badminton'; render(); } },
+
+    { sel:'.adminbox',
+      title:'Record a match — pre-filled for you',
+      body:'I’ve set a winner and loser as an example. In real use you just pick two players. The winner automatically gets 3 points.',
+      cta:'Fill it in',
+      run(){
+        mode='admin'; render();
+        // auto-fill the form as a demonstration
+        const w=$('mWinner'), l=$('mLoser');
+        if(w&&l){ w.value='Priya'; l.value='Kabir'; }
+      },
+      onNext(){
+        const w=$('mWinner'), l=$('mLoser');
+        if(w&&l&&w.value!==l.value){ sports[current].matches.push([w.value,l.value]); render(); }
+      } },
+
+    { sel:'#lbBody',
+      title:'The leaderboard just updated ⚡',
+      body:'That match instantly recalculated Played / Won / Lost / Points and re-ranked everyone — no page reload, no spreadsheet.',
+      cta:'Next',
+      run(){ mode='admin'; render(); } },
+
+    { sel:'#toggle',
+      title:'That’s it — flip back to Viewer',
+      body:'This is exactly what your members will see: a clean, live leaderboard. Go ahead and explore the demo yourself!',
+      cta:'Finish',
+      run(){ /* keep admin so they see the toggle */ },
+      onNext(){ mode='viewer'; render(); } },
+  ];
+
+  function buildDots(){
+    elDots.innerHTML=steps.map((_,n)=>`<i class="${n===i?'on':''}"></i>`).join('');
+  }
+  function clearActive(){
+    if(activeEl){ activeEl.classList.remove('tour-active','tour-pulse'); activeEl=null; }
+  }
+  function place(){
+    const s=steps[i], el=document.querySelector(s.sel);
+    if(!el){ next(); return; }
+    clearActive();
+    activeEl=el;
+    el.classList.add('tour-active','tour-pulse');
+    // make sure the target is on screen
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+
+    // position tooltip after scroll settles
+    setTimeout(()=>{
+      const r=el.getBoundingClientRect();
+      const tipH=tip.offsetHeight||170, tipW=tip.offsetWidth||300;
+      const margin=14, vw=window.innerWidth, vh=window.innerHeight;
+      let top, dir;
+      if(r.bottom+tipH+margin < vh){ top=r.bottom+margin; dir='up'; }   // below target
+      else { top=r.top-tipH-margin; dir='down'; }                       // above target
+      top=Math.max(12, Math.min(top, vh-tipH-12));
+      let left=r.left + r.width/2 - tipW/2;
+      left=Math.max(16, Math.min(left, vw-tipW-16));
+      tip.style.top=top+'px'; tip.style.left=left+'px';
+
+      // arrow
+      let ax=r.left + r.width/2 - 9;
+      ax=Math.max(left+14, Math.min(ax, left+tipW-24));
+      arrow.className='tour-arrow on '+dir;
+      arrow.style.left=ax+'px';
+      arrow.style.top=(dir==='up'? top-9 : top+tipH)+'px';
+    }, 260);
+  }
+  function show(){
+    const s=steps[i];
+    if(typeof s.run==='function') s.run();
+    elStep.textContent=`Step ${i+1} of ${steps.length}`;
+    elTitle.textContent=s.title;
+    elBody.textContent=s.body;
+    btnNext.textContent=s.cta||(i===steps.length-1?'Finish':'Next');
+    buildDots();
+    dim.classList.add('on'); tip.classList.add('on');
+    place();
+  }
+  function next(){
+    const s=steps[i];
+    if(typeof s.onNext==='function') s.onNext();
+    i++;
+    if(i>=steps.length){ end(); return; }
+    show();
+  }
+  function end(){
+    clearActive();
+    dim.classList.remove('on'); tip.classList.remove('on'); arrow.className='tour-arrow';
+    try{ localStorage.setItem('cp_tour_done','1'); }catch(e){}
+  }
+  function start(){
+    i=0; buildDots(); show();
+  }
+
+  btnNext.addEventListener('click', next);
+  btnSkip.addEventListener('click', end);
+  dim.addEventListener('click', end);
+  document.addEventListener('keydown', e=>{
+    if(!dim.classList.contains('on')) return;
+    if(e.key==='Escape') end();
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); next(); }
   });
-});
+  $('howtoBtn').addEventListener('click', start);        // manual re-trigger anytime
+  window.addEventListener('resize', ()=>{ if(dim.classList.contains('on')) place(); });
+
+  // Auto-start once when the demo scrolls into view (skips if already seen)
+  let seen=false; try{ seen=localStorage.getItem('cp_tour_done')==='1'; }catch(e){}
+  if(!seen){
+    const demo=document.getElementById('demo');
+    const io=new IntersectionObserver((entries)=>{
+      entries.forEach(en=>{
+        if(en.isIntersecting && !started){
+          started=true; io.disconnect();
+          setTimeout(start, 500);   // small beat so it doesn't feel abrupt
+        }
+      });
+    }, {threshold:0.45});
+    io.observe(demo);
+  }
+})();
+
 </script>
 </body>
 </html>
