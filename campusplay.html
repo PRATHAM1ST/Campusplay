@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CampusPlay — Sports Community</title>
+<style>
+  :root{
+    --bg:#f6f8f7; --card:#ffffff; --ink:#14201b; --muted:#6b7c74;
+    --line:#e5ece8; --accent:#12a15f; --accent-soft:#e6f6ee;
+    --admin:#e8622c; --admin-soft:#fdeee7;
+    --gold:#e8b923; --silver:#a9b4bd; --bronze:#c88a4a;
+    --shadow:0 1px 2px rgba(20,32,27,.04),0 8px 24px rgba(20,32,27,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:860px;margin:0 auto;padding:0 18px 64px}
+
+  /* header */
+  header{display:flex;align-items:center;justify-content:space-between;
+    gap:12px;padding:22px 18px;max-width:860px;margin:0 auto}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.02em}
+  .brand .dot{font-size:22px}
+  .brand small{display:block;font-weight:500;font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+
+  /* mode toggle */
+  .toggle{display:inline-flex;background:#eef2f0;border-radius:999px;padding:4px;gap:2px}
+  .toggle button{border:0;background:transparent;color:var(--muted);font-weight:700;
+    font-size:13px;padding:7px 16px;border-radius:999px;cursor:pointer}
+  .toggle button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+  .toggle button.on.admin{color:var(--admin)}
+
+  /* admin banner */
+  .banner{max-width:860px;margin:0 auto 4px;padding:0 18px}
+  .banner .inner{background:var(--admin-soft);color:var(--admin);border:1px solid #f6d6c6;
+    border-radius:12px;padding:10px 14px;font-weight:700;font-size:13px;display:flex;align-items:center;gap:8px}
+
+  /* sport tabs */
+  .tabs{display:flex;gap:8px;overflow-x:auto;padding:14px 0 18px;-webkit-overflow-scrolling:touch}
+  .tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--muted);
+    font-weight:700;font-size:14px;padding:9px 16px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow);padding:18px;margin-bottom:18px}
+  .card h2{margin:0 0 2px;font-size:17px;letter-spacing:-.01em}
+  .card .sub{color:var(--muted);font-size:13px;margin-bottom:14px}
+
+  /* leaderboard table */
+  .tablewrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:460px}
+  th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line)}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+  td.num,th.num{text-align:center}
+  tbody tr:last-child td{border-bottom:0}
+  .rank{font-weight:800;width:44px;text-align:center}
+  .medal{font-size:17px}
+  .pname{font-weight:700}
+  .pts{font-weight:800;color:var(--accent);font-size:16px}
+  .w{color:var(--accent);font-weight:700}
+  .l{color:#c0503a;font-weight:700}
+  tr.top1{background:linear-gradient(90deg,#fffbe9,transparent)}
+
+  .empty{color:var(--muted);text-align:center;padding:26px 10px}
+
+  /* recent matches */
+  .match{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .match:last-child{border-bottom:0}
+  .match .beat{color:var(--muted)}
+  .match b{font-weight:700}
+  .match .win{color:var(--accent)}
+  .xbtn{margin-left:auto;border:0;background:#f4efee;color:#c0503a;width:26px;height:26px;
+    border-radius:8px;cursor:pointer;font-weight:800;line-height:1;font-size:14px}
+  .xbtn:hover{background:#f6ddd6}
+
+  /* admin forms */
+  .adminbox{border:1px dashed #f0c9b8;background:#fffaf7}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+  .field{display:flex;flex-direction:column;gap:5px}
+  .field label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  select,input[type=text]{border:1px solid var(--line);background:#fff;border-radius:10px;
+    padding:9px 11px;font-size:14px;color:var(--ink);min-width:150px}
+  select:focus,input:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+  .btn{border:0;border-radius:10px;padding:10px 18px;font-weight:700;font-size:14px;cursor:pointer;color:#fff}
+  .btn.go{background:var(--admin)}
+  .btn.add{background:var(--accent)}
+  .btn:active{transform:translateY(1px)}
+  .hint{color:#c0503a;font-size:12px;font-weight:600;min-height:16px;margin-top:6px}
+  .split{height:1px;background:var(--line);margin:16px 0}
+
+  .viewer-only{}
+  body.admin .hide-admin{display:none}
+  body:not(.admin) .admin-only{display:none}
+</style>
+</head>
+<body class="viewer">
+
+<header>
+  <div class="brand">
+    <span class="dot">🏆</span>
+    <span>CampusPlay<small>Sports Community</small></span>
+  </div>
+  <div class="toggle" id="toggle">
+    <button data-mode="viewer" class="on">Viewer</button>
+    <button data-mode="admin" class="admin">Admin</button>
+  </div>
+</header>
+
+<div class="banner admin-only">
+  <div class="inner">🔒 ADMIN MODE — editing enabled. Viewers can only look; here you record results.</div>
+</div>
+
+<div class="wrap">
+  <div class="tabs" id="tabs"></div>
+
+  <!-- admin controls -->
+  <div class="card adminbox admin-only">
+    <h2>Record a match</h2>
+    <div class="sub">Winner gets 3 points. Played / Won / Lost update automatically.</div>
+    <div class="row">
+      <div class="field">
+        <label>Winner</label>
+        <select id="mWinner"></select>
+      </div>
+      <div class="field">
+        <label>Loser</label>
+        <select id="mLoser"></select>
+      </div>
+      <button class="btn go" id="saveMatch">Save match</button>
+    </div>
+    <div class="hint" id="matchHint"></div>
+
+    <div class="split"></div>
+
+    <h2>Add a player</h2>
+    <div class="sub">Adds a student to this sport's roster at 0 points.</div>
+    <div class="row">
+      <div class="field">
+        <label>Player name</label>
+        <input type="text" id="pName" placeholder="e.g. Rohan" autocomplete="off">
+      </div>
+      <button class="btn add" id="addPlayer">Add player</button>
+    </div>
+    <div class="hint" id="playerHint"></div>
+  </div>
+
+  <!-- leaderboard -->
+  <div class="card">
+    <h2 id="lbTitle">Leaderboard</h2>
+    <div class="sub" id="lbSub"></div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="rank">#</th><th>Player</th>
+            <th class="num">Played</th><th class="num">Won</th>
+            <th class="num">Lost</th><th class="num">Points</th>
+          </tr>
+        </thead>
+        <tbody id="lbBody"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="lbEmpty" style="display:none">No players yet — add one in Admin mode.</div>
+  </div>
+
+  <!-- recent matches -->
+  <div class="card">
+    <h2>Recent matches</h2>
+    <div class="sub">Most recent first.</div>
+    <div id="matchList"></div>
+    <div class="empty" id="mEmpty" style="display:none">No matches recorded yet.</div>
+  </div>
+</div>
+
+<script>
+// ---- data: matches are the source of truth; standings are computed ----
+const sports = {
+  badminton:  { label:'🏸 Badminton',    players:['Aarav','Priya','Kabir','Sana','Rohan'],
+                matches:[['Aarav','Sana'],['Priya','Kabir'],['Aarav','Priya'],['Kabir','Rohan'],
+                         ['Aarav','Kabir'],['Priya','Rohan'],['Sana','Rohan'],['Aarav','Priya']] },
+  pickleball: { label:'🥒 Pickleball',    players:['Meera','Dev','Ishaan','Nisha'],
+                matches:[['Meera','Dev'],['Ishaan','Nisha'],['Meera','Ishaan'],['Dev','Nisha'],['Meera','Nisha']] },
+  snooker:    { label:'🎱 Snooker',       players:['Arjun','Vivek','Tara'],
+                matches:[['Arjun','Vivek'],['Tara','Vivek'],['Arjun','Tara'],['Arjun','Vivek']] },
+  tabletennis:{ label:'🏓 Table Tennis',  players:['Zoya','Karan','Anaya','Yash','Diya'],
+                matches:[['Zoya','Karan'],['Anaya','Yash'],['Zoya','Anaya'],['Karan','Diya'],
+                         ['Yash','Diya'],['Zoya','Diya']] },
+};
+const WIN_POINTS = 3;
+let mode = 'viewer';
+let current = 'badminton';
+
+// ---- compute standings from roster + matches ----
+function standings(key){
+  const s = sports[key];
+  const t = {};
+  s.players.forEach(n => t[n] = {name:n, played:0, won:0, lost:0, points:0});
+  s.matches.forEach(([w,l]) => {
+    if(t[w]){ t[w].played++; t[w].won++; t[w].points += WIN_POINTS; }
+    if(t[l]){ t[l].played++; t[l].lost++; }
+  });
+  return Object.values(t).sort((a,b)=>
+    b.points-a.points || b.won-a.won || a.name.localeCompare(b.name));
+}
+
+// ---- render ----
+const $ = id => document.getElementById(id);
+const medals = ['🥇','🥈','🥉'];
+
+function render(){
+  document.body.className = mode; // 'viewer' or 'admin'
+  [...$('toggle').children].forEach(b=>b.classList.toggle('on', b.dataset.mode===mode));
+  [...$('tabs').children].forEach(b=>b.classList.toggle('on', b.dataset.key===current));
+
+  const s = sports[current];
+  const rows = standings(current);
+  $('lbTitle').textContent = s.label + ' — Leaderboard';
+  $('lbSub').textContent = rows.length + ' players · ' + s.matches.length + ' matches played';
+
+  // leaderboard
+  const body = $('lbBody'); body.innerHTML='';
+  $('lbEmpty').style.display = rows.length ? 'none' : 'block';
+  rows.forEach((p,i)=>{
+    const tr = document.createElement('tr');
+    if(i===0) tr.className='top1';
+    const rank = i<3 ? `<span class="medal">${medals[i]}</span>` : (i+1);
+    tr.innerHTML =
+      `<td class="rank">${rank}</td>`+
+      `<td class="pname">${esc(p.name)}</td>`+
+      `<td class="num">${p.played}</td>`+
+      `<td class="num w">${p.won}</td>`+
+      `<td class="num l">${p.lost}</td>`+
+      `<td class="num pts">${p.points}</td>`;
+    body.appendChild(tr);
+  });
+
+  // recent matches (most recent first)
+  const list = $('matchList'); list.innerHTML='';
+  $('mEmpty').style.display = s.matches.length ? 'none' : 'block';
+  s.matches.map((m,idx)=>({m,idx})).reverse().forEach(({m,idx})=>{
+    const div = document.createElement('div');
+    div.className='match';
+    div.innerHTML = `<span class="win"><b>${esc(m[0])}</b></span>`+
+      `<span class="beat">beat</span><b>${esc(m[1])}</b>`+
+      (mode==='admin' ? `<button class="xbtn" title="Undo this match" data-idx="${idx}">✕</button>` : '');
+    list.appendChild(div);
+  });
+
+  // admin dropdowns
+  if(mode==='admin'){
+    const opts = s.players.map(n=>`<option>${esc(n)}</option>`).join('');
+    $('mWinner').innerHTML = opts;
+    $('mLoser').innerHTML = opts;
+    if(s.players.length>1) $('mLoser').selectedIndex = 1;
+  }
+}
+
+function esc(str){ return String(str).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+// ---- actions (the calculation lives here) ----
+function saveMatch(){
+  const w = $('mWinner').value, l = $('mLoser').value;
+  const hint = $('matchHint');
+  if(w===l){ hint.textContent='Winner and loser must be different players.'; return; }
+  sports[current].matches.push([w,l]);
+  hint.textContent=''; render();
+}
+function removeMatch(idx){
+  sports[current].matches.splice(idx,1);
+  render();
+}
+function addPlayer(){
+  const inp = $('pName'), name = inp.value.trim(), hint = $('playerHint');
+  if(!name){ hint.textContent='Enter a name first.'; return; }
+  if(sports[current].players.some(p=>p.toLowerCase()===name.toLowerCase())){
+    hint.textContent='That player already exists in this sport.'; return; }
+  sports[current].players.push(name);
+  inp.value=''; hint.textContent=''; render();
+}
+
+// ---- wiring ----
+$('toggle').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  mode = b.dataset.mode; render();
+});
+$('tabs').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  current = b.dataset.key; $('matchHint').textContent=''; $('playerHint').textContent=''; render();
+});
+$('matchList').addEventListener('click', e=>{
+  const b = e.target.closest('.xbtn'); if(!b) return;
+  removeMatch(+b.dataset.idx);
+});
+$('saveMatch').addEventListener('click', saveMatch);
+$('addPlayer').addEventListener('click', addPlayer);
+$('pName').addEventListener('keydown', e=>{ if(e.key==='Enter') addPlayer(); });
+
+// build sport tabs
+$('tabs').innerHTML = Object.entries(sports)
+  .map(([k,v])=>`<button data-key="${k}">${v.label}</button>`).join('');
+
+render();
+</script>
+</body>
+</html>
